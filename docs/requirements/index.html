@@ -102,6 +102,15 @@
     </li>
             <li class="pl-4">
             
+        <a href="/docs/architecture"
+            class="lvl0   nav-menu__item hover:text-blue-500"
+        >
+            Architettura
+        </a>
+    
+    </li>
+            <li class="pl-4">
+            
         <a href="/docs/microservices"
             class="lvl0   nav-menu__item hover:text-blue-500"
         >
@@ -201,6 +210,89 @@
 
         <div class="DocSearch-content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
             <h1>Analisi dei requisiti</h1>
+
+<p>In questa sezione viene illustrata una generica analisi dei requisiti per il sistema Almatrasporti.</p>
+
+<h2>Introduzione</h2>
+
+<p>AlmaTrasporti è un’azienda specializzata in trasporti e logistica, ha diverse sedi sul territorio italiano ed estero
+ed un buon fatturato annuo. Di recente ha deciso di investire nelle nuove tecnologie, in particolare afferenti
+agli ambiti IoT e Big Data &amp; AI. Obiettivo dell’azienda è quello di efficientare i consumi della propria flotta di
+autovetture acquisendo conoscenza dai dati per poi prendere decisioni consapevoli e mirate al risparmio.</p>
+
+<p>Il primo passo dell’investimento che l’azienda ha effettuato è stato quello di acquistare una serie di centraline
+intelligenti da installare sulle proprie vetture, in grado di rilevare i seguenti parametri:</p>
+
+<ul>
+<li><code>VinVehicle</code>: identificativo del veicolo</li>
+<li><code>Timestamp</code>: timestamp di emissione dell’evento</li>
+<li><code>Driver</code>: matricola conducente</li>
+<li><code>Odometer</code>: distanza in metri coperta dal veicolo</li>
+<li><code>LifeConsumption</code>: consumo carburante in millilitri</li>
+<li><code>Position.lon</code>: longitudine</li>
+<li><code>Position.lat</code>: latitudine</li>
+<li><code>Position.altitude</code>: altitudine (sopra il livello del mare)</li>
+<li><code>Position.heading</code>: direzione</li>
+<li><code>Position.speed</code>: velocità in km/h</li>
+<li><code>Position.satellites</code>: numero di satelliti usati per la triangolazione</li>
+</ul>
+
+<p>Il Sistema che si intende realizzare deve permettere la raccolta e l'elaborazione dei dati dalle centraline installate
+sui veicoli, al fine di supportare le decisioni in ottica di risparmio consumi. Inoltre deve permettere di effettuare il
+tracking in tempo reale dei veicoli della flotta.</p>
+
+<h2>Sistema proposto</h2>
+
+<h3>Requisiti funzionali</h3>
+
+<p>Il sistema deve realizzare le seguenti funzionalità:</p>
+
+<ul>
+<li>Effettuare la raccolta dati dai veicoli;</li>
+<li>Effettuare lo storage dei dati per la successiva elaborazione sia in tempo reale che in modalità batch;</li>
+<li>Implementare tecniche di IA/ML per effettuare predizioni dei consumi sulla base delle serie storiche dei consumi.</li>
+</ul>
+
+<h3>Requisiti non funzionali</h3>
+
+<p>Ulteriori requisiti che devono essere soddisfatti dal sistema sono i seguenti:</p>
+
+<p><strong>Affidabilità</strong>:</p>
+
+<ul>
+<li>garanzia di corretta trasmissione dei messaggi nella medesima sequenza in cui sono stati ricevuti;</li>
+<li>rimozione eventuali messaggi duplicati prima dell'elaborazione;</li>
+<li>tolleranza ai malfunzionamenti (se una parte del sistema viene meno, il normale funzionamento deve riprendere al 
+suo ripristino) ;</li>
+<li>possibilità di effettuare nuovamente il playback dei messaggi in caso di perdita dati, secondo il modello di <em>Event 
+Projection</em> e <em>CQRS</em>.</li>
+</ul>
+
+<p><strong>Performance</strong>:</p>
+
+<ul>
+<li>possibilità scalare le performance aumentando il numero di risorse/servizi.</li>
+<li>esecuzione di alcune elaborazioni in modalità real-time o near real-time.</li>
+</ul>
+
+<p><strong>Implementazione</strong>:</p>
+
+<ul>
+<li>Utilizzo, ove possibile, di sistemi a container, Infrastructure as Code ed altre prassi DevOpsSec.</li>
+<li>Realizzazione mediante microservizi al fine di ottenere il massimo disaccoppiamento fra le componenti del Sistema.</li>
+</ul>
+
+<p><strong>Interfaccia</strong>:</p>
+
+<ul>
+<li>Interrogazione del sistema mediante interfaccia web.</li>
+</ul>
+
+<h3>Modello del sistema</h3>
+
+<p><strong>Scenari</strong></p>
+
+<h3>Glossario</h3>
         </div>
     </div>
 </section>
