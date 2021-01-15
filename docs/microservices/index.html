@@ -155,15 +155,6 @@
         </a>
     
     </li>
-            <li class="pl-4">
-            
-        <a href="/docs/microservices/prediction"
-            class="lvl1   nav-menu__item hover:text-blue-500"
-        >
-            Prediction
-        </a>
-    
-    </li>
     </ul>
     </li>
             <li class="pl-4">
@@ -194,6 +185,15 @@
         </a>
     
     </li>
+            <li class="pl-4">
+            
+        <a href="/docs/deep-learning-model/prediction"
+            class="lvl1   nav-menu__item hover:text-blue-500"
+        >
+            Servizio web Prediction
+        </a>
+    
+    </li>
     </ul>
     </li>
             <li class="pl-4">
@@ -210,6 +210,18 @@
 
         <div class="DocSearch-content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
             <h1>Microservices</h1>
+
+<p>Oltre alla parte infrastrutturale, la movimentazione dei dati dalla sorgente (le centraline dei veicoli) alle varie 
+destinazioni (MongoDB e Redis), viene gestita da un set di microservizi, aventi ciascuno una funzionalità differente.</p>
+
+<p>I microservizi sono i seguenti:</p>
+
+<ul>
+<li><a href="/docs/microservices/injector">Injector</a>: Caricamento dati grezzi dalle centraline a bordo dei veicoli;</li>
+<li><a href="/docs/microservices/etl_l1">ETL_L1</a>: Conversione dati grezzi in documenti JSON e caricamento sui topic Kafka <code>batch</code> e <code>realtime</code></li>
+<li><a href="/docs/microservices/etl_l2">ETL_L2</a>: Caricamento dati batch su MongoDB</li>
+<li><a href="/docs/microservices/etl_l3">ETL_L3</a>: Caricamento dati real-time su Redis</li>
+</ul>
         </div>
     </div>
 </section>
