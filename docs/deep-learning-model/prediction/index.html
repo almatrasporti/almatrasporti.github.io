@@ -209,9 +209,64 @@
         </nav>
 
         <div class="DocSearch-content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
-            <h1>Prediction</h1>
+            <p><img style="float: left; margin:auto; margin-right: 8px;" src="/assets/img/GitHub-Mark-32px.png"><a href="https://github.com/almatrasporti/prediction-service" target="_blank">https://github.com/almatrasporti/prediction-service</a></p>
 
-<p>TBD</p>
+<h1>Servizio di predizione consumi</h1>
+
+<p>Il modello di rete neurale addestrato con i dati batch viene utilizzato per le previsioni dei consumi in tempo reale.</p>
+
+<p>A questo scopo viene utilizzato un webservice scritto in Python utilizzando il framework <em>Flask</em>.</p>
+
+<h2>Endpoint predizione consumi</h2>
+
+<p>Il servizio rende disponibile il seguente endpoint REST:</p>
+
+<p><code>POST /</code>:</p>
+
+<ul>
+<li>Input: un documento json nella seguente forma:</li>
+</ul>
+
+<pre><code class="language-json">{
+  "values": [
+    ...
+  ]
+}
+</code></pre>
+
+<p>dove <code>values</code> è un array di valori numerici usati per effettuare la predizione, di dimensione pari al finestra temporale 
+usata per addestrare il modello.</p>
+
+<ul>
+<li>Output: unm document json nella seguente forma:</li>
+</ul>
+
+<pre><code class="language-json">{
+  "prediction": 123.45,
+  "values": [
+    ...
+  ]
+}
+</code></pre>
+
+<p>dove <code>prediction</code> è il valore predetto dal modello e <code>values</code> è la replica dei valori utilizzati per effettuare la 
+predizione.</p>
+
+<h2>Implementazione</h2>
+
+<p>L'endpoint effettua tre operazioni principali:</p>
+
+<ul>
+<li><strong>Lettura della serie storica di input</strong>: lettura dei dati contenuti nel documento json di input;</li>
+<li><strong>Caricamento strutture dati</strong>: caricamento delle seguenti strutture da file system:
+
+<ul>
+<li><em>Modello di rete neurale</em>: precedentemente addestrato nel fase di creazione modello;</li>
+<li><em>Scaler dei dati</em>: trasformazione per la normalizzazione dati, tarata sui dati usati per l'addestramentoM;</li>
+</ul></li>
+<li><strong>Predizione del dato successivo</strong>: il modello viene valutato per ottenere il dato di predizione;</li>
+<li><strong>Creazione del docuemnto di output</strong>: il dato predetto viene impacchettato nel documento per la risposta.</li>
+</ul>
         </div>
     </div>
 </section>
