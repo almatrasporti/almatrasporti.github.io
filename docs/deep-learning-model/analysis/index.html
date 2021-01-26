@@ -78,7 +78,7 @@
         <a href="/docs/getting-started"
             class="lvl0   nav-menu__item hover:text-blue-500"
         >
-            Getting Started
+            Ecosistema
         </a>
     
     </li>
@@ -209,9 +209,51 @@
         </nav>
 
         <div class="DocSearch-content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
-            <h1>Analisi dati</h1>
+            <h1><strong>Analisi descrittiva dei dati dei consumi della flotta veicoli</strong></h1>
 
-<p>TBD</p>
+<p><img style="float: left; margin:auto; margin-right: 8px;" src="/assets/img/kaggle_32x32.png"><a href="https://www.kaggle.com/robertogallea/almatrasporti-analisi-descrittiva" target="_blank">https://www.kaggle.com/robertogallea/almatrasporti-analisi-descrittiva</a></p>
+
+<p><strong>AlmaTrasporti</strong> è un’azienda specializzata in trasporti e logistica ed ha diverse sedi sul territorio italiano ed estero. Obiettivo dell’azienda è quello di efficientare i consumi della propria flotta di autovetture acquisendo conoscenza dai dati per poi prendere decisioni consapevoli e mirate al risparmio.</p>
+
+<p>Il primo passo dell’investimento che l’azienda ha effettuato è stato quello di acquistare una serie di centraline intelligenti da installare sulle proprie vetture, in grado di rilevare i seguenti parametri:</p>
+
+<ul>
+<li><code>VinVehicle</code>: identificativo del veicolo</li>
+<li><code>Timestamp</code>: timestamp di emissione dell’evento</li>
+<li><code>Driver</code>: matricola conducente</li>
+<li><code>Odometer</code>: distanza in metri coperta dal veicolo</li>
+<li><code>LifeConsumption</code>: consumo carburante in millilitri</li>
+<li><code>Position.lon</code>: longitudine</li>
+<li><code>Position.lat</code>: latitudine</li>
+<li><code>Position.altitude</code>: altitudine (sopra il livello del mare)</li>
+<li><code>Position.heading</code>: direzione</li>
+<li><code>Position.speed</code>: velocità in km/h</li>
+<li><code>Position.satellites</code>: numero di satelliti usati per la triangolazione</li>
+</ul>
+
+<p>La centralina produce dati ad intervalli regolari e li confeziona per inviarli sottoforma di eventi ad una piattaforma di acquisizione dati di proprietà dell’azienda. Per ogni evento è presente un timestamp che indica il momento esatto in cui è stato confezionato il messaggio; il <em>timestamp</em> è espresso in secondi secondo lo <em>standard epoch date</em>.</p>
+
+<p>Al fine di prevedere i consumi dei veicoloi monitorati, attraverso l’utilizzo di algoritmi di intelligenza artificiale applicati alle
+<em>Time Series</em>, si utilizzerà il file <em>dati_elaborati.csv</em> che contiene 9 delle variabili sopra descritte e due funzioni delle variabili <em>Odometer</em> e <em>LifeConsumption</em>:</p>
+
+<ul>
+<li><code>DeltaOdometer</code>: incremento misura odometro rispetto al <em>timestamp</em> precedente in metri</li>
+<li><code>DeltaLifeConsumption</code>: incremento consumo carburante rispetto al <em>timestamp</em> precedente in millilitri</li>
+</ul>
+
+<p>I dati vengono rilevati ogni 30 minuti in un arco temporale di 6 mesi, da Giugno a Dicembre 2020.</p>
+
+<ul>
+<li><a href="#1">1.Importazione delle librerie</a> <br></li>
+<li><a href="#2">2.Caricamento e <em>preprocessing</em> dei dati</a> <br></li>
+<li><a href="#3">3.Creazione del nuovo <em>dataframe</em></a> <br></li>
+<li><a href="#4">4.Definizione della funzione <em>equipartite</em> ed imputazione dei dati mancanti</a> <br></li>
+<li><a href="#5">5.Distribuzione della variabile <em>DeltaLifeConsumption</em></a><br></li>
+<li><a href="#6">6.Boxplot della variabile <em>DeltaLifeConsumption</em> nelle 24 ore e nei diversi giorni della settimana</a><br></li>
+<li><a href="#7">7.Medie mobili di ordine k delle variabile <em>DeltaLifeConsumption</em></a><br></li>
+<li><a href="#8">8.Correlazione lineare fra i veicoli rispetto alla variabile <em>DeltaLifeConsumption</em></a><br></li>
+<li><a href="#9">9.Conclusioni</a><br></li>
+</ul>
         </div>
     </div>
 </section>

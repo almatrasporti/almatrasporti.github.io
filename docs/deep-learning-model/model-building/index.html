@@ -78,7 +78,7 @@
         <a href="/docs/getting-started"
             class="lvl0   nav-menu__item hover:text-blue-500"
         >
-            Getting Started
+            Ecosistema
         </a>
     
     </li>
@@ -209,9 +209,50 @@
         </nav>
 
         <div class="DocSearch-content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
-            <h1>Costruzione modello</h1>
+            <h1>Costruzione e addestramento del modello di previsione dei consumi</h1>
 
-<p>TBD</p>
+<p><img style="float: left; margin:auto; margin-right: 8px;" src="/assets/img/kaggle_32x32.png"><a href="https://www.kaggle.com/robertogallea/almatrasporti-costruzione-modello/" target="_blank">https://www.kaggle.com/robertogallea/almatrasporti-costruzione-modello/</a></p>
+
+<p>Questa fase ha lo scopo di costruire un modello basato su reti neurali deep finalizzato alla previsione dei consumi dei veicoli della flotta Almatrasporti.</p>
+
+<p>Lo studio analizza e confronta tre differenti tipologie di modello basate su altrettante architetture, nello specifico:</p>
+
+<ul>
+<li>Reti RNN (Recurrent Nueral Networks)</li>
+<li>Reti LSTM (Long-short term memory) di tipo stacked</li>
+<li>Rete Autoencoder + LSTM</li>
+</ul>
+
+<p>Prima della fase di definizione dei modelli veri e propri, vengono operate delle operazioni di <em>data cleaning</em> e  <em>data preprocessing</em>, necessarie per il corretto training dei modelli.</p>
+
+<p>Successivamente i tre modelli vengono definiti, addestrati e valutati singolarmente, mostrandone le misure di performance individuali. Tutti i modelli hanno le seguenti caratteristiche comuni:</p>
+
+<ul>
+<li>Vengono addestrate su una sequenze <code>s_t</code> di campioni in <code>[t-11, t]</code></li>
+<li>Predicono l'uscita del valore a <code>t+1</code></li>
+<li>Implementano uno schema di <em>EarlyStopping</em> per interrompere l'esecuzione del training qualora non vi siano miglioramenti nella misura di validazione negli ultimi 10 passi di training</li>
+</ul>
+
+<p>Successivamente viene condotto un confronto dei tre modelli per valutare se ve ne sia uno migliore in base a considerazioni legate alla lunghezza delle sequenze di input utilizzate.</p>
+
+<p>Infine, viene mostrato come la rete create si sia generalizzata per l'addestramento di serie multivariate.</p>
+
+<p>Il notebook è strutturato come segue:</p>
+
+<ul>
+<li><a href="#1">1. Importazione librerie</a> <br></li>
+<li><a href="#2">2. Caricamento e <em>preprocessing</em> dei dati</a> <br></li>
+<li><a href="#3">3. Suddivisione dei dati in <em>training</em> e <em>test</em> <em>set</em></a> <br></li>
+<li><a href="#4">4. Generazione sequenze di input ed output per il training</a> <br></li>
+<li><a href="#5">5. Modello RNN</a> <br></li>
+<li><a href="#6">6. Modello Stacked LSTM</a> <br></li>
+<li><a href="#7">7. Modello Autoencoder LSTM</a> <br></li>
+<li><a href="#8">8. Confronto dei modelli</a> <br></li>
+<li><a href="#9">9. Esportazione dei modelli</a> <br></li>
+<li><a href="#10">10. Benchmarking al variare della lunghezza della sequenza</a> <br></li>
+<li><a href="#11">11. Bonus: rete multivariata</a> <br></li>
+<li><a href="#12">12. Conclusioni</a> <br></li>
+</ul>
         </div>
     </div>
 </section>
