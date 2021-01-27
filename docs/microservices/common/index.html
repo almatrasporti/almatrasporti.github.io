@@ -219,6 +219,50 @@
 
         <div class="DocSearch-content w-full lg:w-3/5 break-words pb-16 lg:pl-4" v-pre>
             <p><img style="float: left; margin:auto; margin-right: 8px;" src="/assets/img/GitHub-Mark-32px.png"><a href="https://github.com/almatrasporti/injector" target="_blank">https://github.com/almatrasporti/common</a></p>
+
+<h1>Common utilities per Almatrasporti</h1>
+
+<p>Questo package fornisce alcune utilità comuni per la suite Almatrasporti.</p>
+
+<p>La libreria espone le seguenti classi:</p>
+
+<ul>
+<li><code>org.almatrasporti.common.utils.Config</code>: classe <em>singleton</em> class per la creazione di un repository di configurazione
+da file, il cui percorso viene fornito come <code>property</code> applicativa al momento del lancio dell'applicazione, col nome 
+<code>properties.file</code>.</li>
+<li><code>org.almatrasporti.common.models.CANBusMessage</code>: Classe che modella un messaggio ricevuto da una centralina a bordo di
+un veicolo, fornendo una validazione dati di base:
+
+<ul>
+<li>tutti i campi devono essere non nulli</li>
+<li><code>VIN</code>, stringa non vuota</li>
+<li><code>timestamp</code>, intero non negativo</li>
+<li><code>driver</code>, stringa non vuota</li>
+<li><code>odometer</code>, intero non negativo</li>
+<li><code>lifeConsumption</code>, intero non negativo</li>
+<li><code>lon</code>, valore numerico</li>
+<li><code>lat</code>, valore numerico</li>
+<li><code>altitude</code>, valore numerico</li>
+<li><code>heading</code>, valore numerico non negativo</li>
+<li><code>speed</code>, valore numerico non negativo</li>
+<li><code>satellites</code>, valore numerico non negativo</li>
+</ul></li>
+<li><code>org.almatrasporti.common.services.serializers.BatchCANBusMessageSerializer</code>: classe per la serializzazione di un
+`CANBusMessage' come document json nel formato richiesto per il batch processing.</li>
+<li><code>org.almatrasporti.common.services.serializers.RealtimeCANBusMessageSerializer</code>: classe per la serializzazione di un
+`CANBusMessage' come document json nel formato richiesto per il realtime processing.</li>
+<li><code>org.almatrasporti.common.services.CANBusMessageFactory</code>: classe <em>Factory</em> per la creazione di <code>CANBusMessage</code> da un 
+formato specifico. Attualmente l'unico formato implementato è il <em>csv</em>.</li>
+<li><code>org.almatrasporti.common.services.CANBusMessageFormatter</code>: classe per la formattazione di un `CANBusMessage' in uno 
+dei formati supportati. Attualmente i formati supportato sono i seguenti:
+
+<ul>
+<li><code>csv</code></li>
+<li><code>raw json</code></li>
+<li><code>batch json</code></li>
+<li><code>real-time json</code></li>
+</ul></li>
+</ul>
         </div>
     </div>
 </section>
