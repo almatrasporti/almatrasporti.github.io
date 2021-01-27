@@ -227,11 +227,11 @@
 <p>La libreria espone le seguenti classi:</p>
 
 <ul>
-<li><code>org.almatrasporti.common.utils.Config</code>: classe <em>singleton</em> class per la creazione di un repository di configurazione
+<li><p><code>org.almatrasporti.common.utils.Config</code>: classe <em>singleton</em> class per la creazione di un repository di configurazione
 da file, il cui percorso viene fornito come <code>property</code> applicativa al momento del lancio dell'applicazione, col nome 
-<code>properties.file</code>.</li>
-<li><code>org.almatrasporti.common.models.CANBusMessage</code>: Classe che modella un messaggio ricevuto da una centralina a bordo di
-un veicolo, fornendo una validazione dati di base:
+<code>properties.file</code>.</p></li>
+<li><p><code>org.almatrasporti.common.models.CANBusMessage</code>: Classe che modella un messaggio ricevuto da una centralina a bordo di
+un veicolo, fornendo una validazione dati di base:</p>
 
 <ul>
 <li>tutti i campi devono essere non nulli</li>
@@ -247,14 +247,14 @@ un veicolo, fornendo una validazione dati di base:
 <li><code>speed</code>, valore numerico non negativo</li>
 <li><code>satellites</code>, valore numerico non negativo</li>
 </ul></li>
-<li><code>org.almatrasporti.common.services.serializers.BatchCANBusMessageSerializer</code>: classe per la serializzazione di un
-`CANBusMessage' come document json nel formato richiesto per il batch processing.</li>
-<li><code>org.almatrasporti.common.services.serializers.RealtimeCANBusMessageSerializer</code>: classe per la serializzazione di un
-`CANBusMessage' come document json nel formato richiesto per il realtime processing.</li>
-<li><code>org.almatrasporti.common.services.CANBusMessageFactory</code>: classe <em>Factory</em> per la creazione di <code>CANBusMessage</code> da un 
-formato specifico. Attualmente l'unico formato implementato è il <em>csv</em>.</li>
-<li><code>org.almatrasporti.common.services.CANBusMessageFormatter</code>: classe per la formattazione di un `CANBusMessage' in uno 
-dei formati supportati. Attualmente i formati supportato sono i seguenti:
+<li><p><code>org.almatrasporti.common.services.serializers.BatchCANBusMessageSerializer</code>: classe per la serializzazione di un
+`CANBusMessage' come document json nel formato richiesto per il batch processing.</p></li>
+<li><p><code>org.almatrasporti.common.services.serializers.RealtimeCANBusMessageSerializer</code>: classe per la serializzazione di un
+<code>CANBusMessage</code> come document json nel formato richiesto per il realtime processing.</p></li>
+<li><p><code>org.almatrasporti.common.services.CANBusMessageFactory</code>: classe <em>Factory</em> per la creazione di <code>CANBusMessage</code> da un 
+formato specifico. Attualmente l'unico formato implementato è il <em>csv</em>.</p></li>
+<li><p><code>org.almatrasporti.common.services.CANBusMessageFormatter</code>: classe per la formattazione di un `CANBusMessage' in uno 
+dei formati supportati. Attualmente i formati supportato sono i seguenti:</p>
 
 <ul>
 <li><code>csv</code></li>
