@@ -227,14 +227,15 @@
 <p>La dashboard di Almatrasporti è una <em>Proof of Concept</em> di un applicativo web che realizza le seguenti funzioni:</p>
 
 <ul>
-<li><strong>Visualizzazione <em>real time</em> dei dati trasmessi dai veicoli</strong> e successivamente elaborati dai microservizi. Tale visualizzazione è realizzata mediante la rappresentazione su mappa dei percorsi tracciati dai veicoli della flotta
-durante il loro tragitto.</li>
+<li><strong>Visualizzazione <em>real time</em> dei dati trasmessi dai veicoli</strong> e successivamente elaborati dai microservizi. 
+Tale visualizzazione è realizzata mediante la rappresentazione su mappa dei percorsi tracciati dai veicoli della 
+flotta durante il loro tragitto.</li>
 <li><strong>Invocazione del servizio di predizione</strong> basato su modello di Intelligenza Artificiale</li>
 <li><strong>Controllo dello stato di attività dei servizi/moduli</strong> del sistema Almatrasporti, permettendone inoltre la 
 attivazione/disattivazione mediante interfaccia grafica.</li>
 </ul>
 
-<h3>Tecnologie utilizzate</h3>
+<h2>Tecnologie utilizzate</h2>
 
 <p>L'applicativo è realizzato in due parti:</p>
 
@@ -248,7 +249,7 @@ attivazione/disattivazione mediante interfaccia grafica.</li>
 <p>Il modulo di backend è scritto in linguaggio PHP mediante framework <strong>Laravel</strong>, e implementa le seguenti API REST:</p>
 
 <ul>
-<li><code>GET /data</code>: recupero da db Redis dei dati dei veicoli e delle relative posizione ed esportazione in formato Json.</li>
+<li><code>GET /data</code>: recupero da db Redis dei dati dei veicoli e delle relative posizioni, esportati in formato Json.</li>
 <li><p><code>DELETE /data</code>: Cancella tutti i dati da Redis/MongoDB.</p></li>
 <li><p><code>GET /status</code>: recupero stato dei servizi (Kafka, Zookeeper, Microservizi Injector/ETL_[1-3], MongoDB, Redis)</p></li>
 <li><code>POST /service</code>: Attiva un servizio</li>

@@ -224,7 +224,7 @@
 
 <p>Il modello di rete neurale addestrato con i dati batch viene utilizzato per le previsioni dei consumi in tempo reale.</p>
 
-<p>A questo scopo viene utilizzato un webservice scritto in Python utilizzando il framework <em>Flask</em>.</p>
+<p>A questo scopo viene utilizzato un semplice web-service REST scritto in Python utilizzando il framework <em>Flask</em>.</p>
 
 <h2>Endpoint predizione consumi</h2>
 
@@ -238,22 +238,22 @@
 
 <pre><code class="language-json">{
   "values": [
-    ...
+    100, 200, 300, ...
   ]
 }
 </code></pre>
 
-<p>dove <code>values</code> è un array di valori numerici usati per effettuare la predizione, di dimensione pari al finestra temporale 
-usata per addestrare il modello.</p>
+<p>dove <code>values</code> è un array di valori numerici usati per effettuare la predizione, di dimensione pari alla finestra 
+temporale usata in fase di addestramento del modello.</p>
 
 <ul>
-<li>Output: unm document json nella seguente forma:</li>
+<li>Output: un document json nella seguente forma:</li>
 </ul>
 
 <pre><code class="language-json">{
   "prediction": 123.45,
   "values": [
-    ...
+    100, 200, 300, ...
   ]
 }
 </code></pre>
@@ -271,7 +271,7 @@ predizione.</p>
 
 <ul>
 <li><em>Modello di rete neurale</em>: precedentemente addestrato nel fase di creazione modello;</li>
-<li><em>Scaler dei dati</em>: trasformazione per la normalizzazione dati, tarata sui dati usati per l'addestramentoM;</li>
+<li><em>Scaler dei dati</em>: trasformazione per la normalizzazione dati, tarata sui dati usati per l'addestramento;</li>
 </ul></li>
 <li><strong>Predizione del dato successivo</strong>: il modello viene valutato per ottenere il dato di predizione;</li>
 <li><strong>Creazione del docuemnto di output</strong>: il dato predetto viene impacchettato nel documento per la risposta.</li>

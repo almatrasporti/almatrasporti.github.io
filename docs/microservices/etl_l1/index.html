@@ -222,13 +222,16 @@
 
 <p><img src="/assets/images/ETL_L1.png"></p>
 
-<h2>Microservizio ETL_L1</h2>
+<h1>Microservizio ETL_L1</h1>
 
-<p>Il modulo ETL_L1, realizzato in linguaggio Java, si occupa di effettuare le seguenti operazioni:
-- Caricare i dati da topic Kafka
-- Effettuare una trasformazione in formato JSON
-- Effettuare un'elaborazione sul documento
-- Depositare i documenti su altri topic di Kafka.</p>
+<p>Il modulo ETL_L1, realizzato in linguaggio Java, si occupa di effettuare le seguenti operazioni:</p>
+
+<ul>
+<li>Caricare i dati da topic Kafka</li>
+<li>Effettuare una trasformazione in formato JSON</li>
+<li>Effettuare un'elaborazione sul documento</li>
+<li>Depositare i documenti su altri topic di Kafka.</li>
+</ul>
 
 <p>Per tale scopo, il microservizio utilizza la stream processing API di Kafka</p>
 
@@ -239,7 +242,7 @@
 
 <p><code>VIN00000000000010,1590971400,Driver10,1000016000,1333001000,12.366820845888245,45.23895419650073,-13.0,20.01,81,4</code></p>
 
-<p>Vengono convertiti secondo i seguenti formati json:</p>
+<p>Una volta prelevati da Kafka, vengono convertiti secondo i seguenti formati json:</p>
 
 <ul>
 <li>Topic <em>batch</em>:</li>
@@ -263,7 +266,7 @@
 </code></pre>
 
 <ul>
-<li>Topic _realtime:</li>
+<li>Topic <em>realtime</em>:</li>
 </ul>
 
 <pre><code>{
@@ -280,9 +283,10 @@
 }
 </code></pre>
 
-<h3>Configurazione</h3>
+<h2>Configurazione</h2>
 
-<p>E' possibile configurare l'ETL_L1 mediante un file di properties, contenente i seguenti campi:</p>
+<p>E' possibile configurare l'ETL_L1 mediante un file di properties, passato contestualmente al lancio del servizio, 
+mediante l'opzione java <code>-Dproperties.file="ETL_L1.properties"</code>, contenente i seguenti campi:</p>
 
 <ul>
 <li><strong>Kafka.servers</strong>: elenco di coppie <code>host:port</code> separate da virgola ',', usato nel caso in cui <code>OuputAdapter</code> sia <code>KafkaOutputChannelAdapter</code></li>
@@ -313,7 +317,7 @@
     }
 </code></pre>
 
-<h3>ITransformerAdapter</h3>
+<h2>ITransformerAdapter</h2>
 
 <p>Interfaccia per realizzare la trasformazione dati, a partire da un insieme di topic di input, verso un topic di output:</p>
 
@@ -330,32 +334,43 @@
 <li><code>transform()</code> - implementa la logica ETL.</li>
 </ul>
 
-<h3>Transformer</h3>
+<h2>Transformer</h2>
 
 <p>Classe astratta per la conversione dei messaggi, implementa l'interfaccia <code>ITransformerAdapter</code>.</p>
 
-<p>Implementa il metodo <code>transform()</code> che opera le seguenti operazioni:
-- Registrazione sul/i topic di input
-- Acquisizione messaggi da stream
-- Parsing del messaggio <code>abstract</code>
-. Validazione del messaggio
-- Correzione di parametri anomali del messaggio <code>abstract</code>
-- Conversione del messaggio <code>abstract</code>
-- Pubblicazione del messaggio</p>
+<p>Implementa il metodo <code>transform()</code> che opera le seguenti operazioni:</p>
 
-<p>Inoltre, i messaggi che vengono ritenuti non validi per errori sul formato vengono scritti sul topic di errore specifico <code>errorTopic</code>.</p>
+<ul>
+<li>Sottoscrizione al/i topic di input</li>
+<li>Acquisizione messaggi da stream</li>
+<li>Parsing del messaggio <code>abstract</code></li>
+<li>Validazione del messaggio</li>
+<li>Correzione di parametri anomali del messaggio <code>abstract</code></li>
+<li>Conversione del messaggio <code>abstract</code></li>
+<li>Pubblicazione del messaggio</li>
+</ul>
 
-<h3>BatchTransformer</h3>
+<p>Inoltre, i messaggi che vengono ritenuti non validi per errori sul formato vengono scritti sul topic di errore specifico
+ <code>errorTopic</code>.</p>
 
-<p>Estende la class <code>Transformer</code> definendo i metodi
-- <code>parse()</code> lettura dati da CSV
-- <code>fix()</code> invalidazione dei dati di posizione non attendibili e sogliatura dell'altitudine
-- <code>convert()</code> conversione del messaggio nel formato JSON per il ramo batch</p>
+<h2>BatchTransformer</h2>
 
-<h3>RealtimeTransformer</h3>
+<p>Estende la class <code>Transformer</code> definendo i metodi:</p>
 
-<p>Estende e riutilizza le funzionalità di <code>BatchTransformer</code>, ridefinendo il solo metodo
-- <code>convert()</code> conversione del messaggio nel formato JSON per il ramo realtime</p>
+<ul>
+<li><code>parse()</code> lettura dati da CSV</li>
+<li><code>fix()</code> invalidazione dei dati di posizione non attendibili (<code>Position.satellites</code> &lt; 3) e sogliatura dell'altitudine 
+se negativa</li>
+<li><code>convert()</code> conversione del messaggio nel formato JSON per il ramo batch</li>
+</ul>
+
+<h2>RealtimeTransformer</h2>
+
+<p>Estende e riutilizza le funzionalità di <code>BatchTransformer</code>, ridefinendo il solo metodo:</p>
+
+<ul>
+<li><code>convert()</code> conversione del messaggio nel formato JSON per il ramo realtime</li>
+</ul>
         </div>
     </div>
 </section>

@@ -222,17 +222,19 @@
 
 <p><img src="/assets/images/ETL_L2.png"></p>
 
-<h2>Microservizio ETL_L2</h2>
+<h1>Microservizio ETL_L2</h1>
 
-<p>Il modulo ETL_L2, realizzato in linguaggio Java, si occupa di caricare i dati da topic Kafka, per riscriverli, dopo eventuali elaborazioni, su un altro sistema, nel caso in oggetto, Document store MongoDB.</p>
+<p>Il modulo ETL_L2, realizzato in linguaggio Java, si occupa di caricare i dati dal topic <em>batch</em> di Kafka, per 
+riscriverli, dopo eventuali elaborazioni, su un altro sistema, nel caso in oggetto, Document store MongoDB.</p>
 
 <p>I dati possono essere scritti con modalità/elaborazioni differenti su collezioni differenti.</p>
 
-<p>Per tale scopo, il microservizio utilizza la Consumer API di Kafka e l'API di comunicazione MongoDB.</p>
+<p>Per tale scopo, il microservizio utilizza la <strong>Consumer API</strong> di Kafka e l'<strong>API di comunicazione MongoDB</strong>.</p>
 
-<h3>Configurazione</h3>
+<h2>Configurazione</h2>
 
-<p>E' possibile configurare l'ETL_L2 mediante un file di properties, contenente i seguenti campi:</p>
+<p>E' possibile configurare l'ETL_L2 mediante un file di properties, passato contestualmente al lancio del servizio, 
+mediante l'opzione java <code>-Dproperties.file="ETL_L1.properties"</code>, contenente i seguenti campi:</p>
 
 <ul>
 <li><strong>Kafka.servers</strong>: elenco di coppie <code>host:port</code> separate da virgola ',', usato nel caso in cui <code>OuputAdapter</code> sia <code>KafkaOutputChannelAdapter</code></li>
@@ -243,13 +245,19 @@
 
 <h2>Funzionamento</h2>
 
-<p>La classe <code>ETL_L2</code> viene istanziata senza richiedere alcun parametro al costruttore, il quale crea un oggetto <code>ConsumeToDocumentStore</code>, inizializzato tramite una lista di istanze di <code>IWriter</code>, inizializzate a loro volta con due implementazioni di <code>MongoWriter</code> (seppure con due diverse strategie di scrittura, vedi dopo)</p>
+<p>La classe <code>ETL_L2</code> viene istanziata senza richiedere alcun parametro al costruttore, il quale crea un'istanza di 
+<code>ConsumeToDocumentStore</code>, inizializzato tramite una lista di istanze di <code>IWriter</code>, inizializzate a loro volta con due 
+implementazioni di <code>MongoWriter</code> (seppure con due diverse strategie di scrittura, vedi dopo)</p>
 
-<p>Tramite il metodo <code>execute</code>, il consumer si occupa di consumare i messaggi sul topic batch di Kafka, riscrivendoli su MongoDB secondo le modalità previste, definite tramite la lista <code>List&lt;IWriter&gt; writers</code> (vedi dopo).</p>
+<p>Tramite il metodo <code>execute</code>, il consumer si occupa di consumare i messaggi sul topic batch di Kafka, riscrivendoli su 
+MongoDB secondo le modalità previste, definite tramite la lista <code>List&lt;IWriter&gt; writers</code> (vedi dopo).</p>
 
-<p>Nel caso in esame, due tipologie di documenti sono richiesti:
-- Documento semplice (gestito da <code>SimpleWriter</code>, vedi dopo)
-- Documento elaborato (gestito da <code>EnhancedWriter</code>, vedi dopo)</p>
+<p>Nel caso in esame, due tipologie di documenti sono richiesti:</p>
+
+<ul>
+<li>Documento semplice (gestito da <code>SimpleWriter</code>)</li>
+<li>Documento elaborato (gestito da <code>EnhancedWriter</code>)</li>
+</ul>
 
 <pre><code>MongoWriter simpleWriter = new MongoWriter("simple_collection", new SimpleDocumentGenerationStrategy());
 MongoWriter enhancedWriter = new MongoWriter("enhanced_collection", new EnhancedDocumentGenerationStrategy());
@@ -260,18 +268,19 @@ writers.add(enhancedWriter);
 consumer = new ConsumeToDocumentStore(writers);
 </code></pre>
 
-<h3>MongoWriter</h3>
+<h2>MongoWriter</h2>
 
 <p>Questa è la classe che si occupa di effettuare la scrittura su MongoDB in modalità <code>upsert</code> al fine di evitare duplicati.</p>
 
-<p>Essa utilizza il pattern <strong>Strategy</strong> per definire, senza variare l'implementazione di <code>MongoWriter</code>, differenti modalità di generazione dei documenti da scrivere.</p>
+<p>Essa utilizza il pattern <strong>Strategy</strong> per definire, senza variare l'implementazione di <code>MongoWriter</code>, differenti 
+modalità di generazione dei documenti da scrivere.</p>
 
 <pre><code>Document obj = Document.parse(recordValue);
 ...
 obj = this.documentGenerationStrategy.process(obj, this.collection);
 </code></pre>
 
-<h3>IDocumentGenerationStrategy</h3>
+<h2>IDocumentGenerationStrategy</h2>
 
 <p>Interfaccia per realizzare la manipolazione del documento da scrivere su MongoDB</p>
 
@@ -284,13 +293,15 @@ obj = this.documentGenerationStrategy.process(obj, this.collection);
 - Il documento di partenza
 - La collection di destinazione, che può essere usata per recuperare informazioni aggiuntive necessarie all'elaborazione</p>
 
-<h3>SimpleDocumentGenerationStrategy</h3>
+<h2>SimpleDocumentGenerationStrategy</h2>
 
 <p>Genera il documento senza effettuare ulteriori elaborazioni.</p>
 
 <h3>EnhancedDocumentGenerationStrategy</h3>
 
-<p>Genera il documento calcolando due ulteriori campi <code>DeltaOdometer</code> e <code>DeltaLifeConsumption</code>, recuperando le informazioni per effettuare la differenza effettuando una query sulla collection.</p>
+<p>Genera il documento calcolando due ulteriori campi <code>DeltaOdometer</code> e <code>DeltaLifeConsumption</code>, recuperando da MongoDB, 
+mediante opportuna query, le informazioni per calcolare la differenza sui valori attuali quelli immediatamente 
+precedenti, noti per lo stesso veicolo.</p>
         </div>
     </div>
 </section>

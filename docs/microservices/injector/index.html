@@ -222,7 +222,7 @@
 
 <p><img src="/assets/images/Injector.png"></p>
 
-<h2>Microservizio Injector</h2>
+<h1>Microservizio Injector</h1>
 
 <p>Il modulo Injector, realizzato in linguaggio Java, si occupa di caricare i dati da una sorgente dati per il successivo trasferimento su un'altra 
 destinazione.</p>
@@ -238,9 +238,10 @@ destinazione.</p>
 
 <p><code>VIN00000000000010,1590971400,Driver10,1000016000,1333001000,12.366820845888245,45.23895419650073,-13.0,20.01,81,4</code></p>
 
-<h3>Configurazione</h3>
+<h2>Configurazione</h2>
 
-<p>E' possibile configurare l'Injector mediante un file di properties, contenente i seguenti campi:</p>
+<p>E' possibile configurare l'Injector mediante un file di properties, passato contestualmente al lancio del servizio, 
+mediante l'opzione java <code>-Dproperties.file="Injector.properties"</code>, contenente i seguenti campi:</p>
 
 <ul>
 <li><strong>InputAdapter</strong>: Classe usata per leggere i dati da una sorgente <strong>(vedi IInputChannelAdapter)</strong>
@@ -251,9 +252,11 @@ store- <strong>OutputAdapter</strong>: Classe usata per scrivere i dati sulla de
 
 <h2>Funzionamento</h2>
 
-<p>La classe <code>Injector</code> viene istanziata passando due istanze delle interfacce <code>IInputChannelAdapter</code> e <code>IOnputChannelAdapter</code>.</p>
+<p>La classe <code>Injector</code> viene istanziata passando rispettivamente una istanza delle interfacce <code>IInputChannelAdapter</code> e 
+<code>IOnputChannelAdapter</code>.</p>
 
-<p>Tramite il metodo <code>process</code>, uno o più eventi (di tipo CANBusMessage) vengono letti dall'inputChannel, per essere scritti sull'outputChannel immediatamente dopo.</p>
+<p>Tramite il metodo <code>process</code>, uno o più eventi (di tipo <code>CANBusMessage</code>) vengono letti dall'inputChannel, per essere 
+scritti sull'outputChannel immediatamente dopo.</p>
 
 <pre><code>    private void process() throws IOException {
         Collection&lt;CANBusMessage&gt; data = inputChannel.load();
@@ -263,7 +266,7 @@ store- <strong>OutputAdapter</strong>: Classe usata per scrivere i dati sulla de
     }
 </code></pre>
 
-<h3>IInputChannelAdapter</h3>
+<h2>IInputChannelAdapter</h2>
 
 <p>Interfaccia per realizzare l'acquisizione dati, secondo il seguente contratto:</p>
 
@@ -272,11 +275,14 @@ store- <strong>OutputAdapter</strong>: Classe usata per scrivere i dati sulla de
 }
 </code></pre>
 
+<p>Notare che il metodo prevede come valore di uscita una <code>Collection</code>, in quanto nel caso reale, i messaggi acquisiti ad 
+ogni chiamata potrebbero essere uno o più.</p>
+
 <p>Due diverse implementazioni sono state realizzate:
 - <code>DummyInputChannelAdapter</code>: fornisce dati generati in modo casuale, per scopi di test;
 - <code>CSVInputChannelAdapter</code>: fornisce dati generati a partire dal file csv definito in fase di configurazione.</p>
 
-<h3>IOuputChannelAdapter</h3>
+<h2>IOuputChannelAdapter</h2>
 
 <p>Interfaccia per realizzare la scrittura dati, secondo il seguente contratto:</p>
 

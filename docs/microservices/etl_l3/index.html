@@ -222,7 +222,7 @@
 
 <p><img src="/assets/images/ETL_L3.png"></p>
 
-<h2>Microservizio ETL_L3</h2>
+<h1>Microservizio ETL_L3</h1>
 
 <p>Il modulo ETL_L3, realizzato in linguaggio Java, si occupa di caricare i dati da topic Kafka, per riscriverli, dopo eventuali elaborazioni, su un altro sistema, nel caso in oggetto, in-memory data store Redis.</p>
 
@@ -230,9 +230,10 @@
 
 <p>Per tale scopo, il microservizio utilizza la Consumer API di Kafka e l'API Jedis per la comunicazione con Redis.</p>
 
-<h3>Configurazione</h3>
+<h2>Configurazione</h2>
 
-<p>E' possibile configurare l'ETL_L3 mediante un file di properties, contenente i seguenti campi:</p>
+<p>E' possibile configurare l'ETL_L3 mediante un file di properties, passato contestualmente al lancio del servizio, 
+mediante l'opzione java <code>-Dproperties.file="ETL_L3.properties"</code>, contenente i seguenti campi:</p>
 
 <ul>
 <li><strong>Kafka.servers</strong>: elenco di coppie <code>host:port</code> separate da virgola ',', usato nel caso in cui <code>OuputAdapter</code> sia <code>KafkaOutputChannelAdapter</code></li>
@@ -242,17 +243,25 @@
 
 <h2>Funzionamento</h2>
 
-<p>La classe <code>ETL_L3</code> viene istanziata senza richiedere alcun parametro al costruttore, il quale crea un'istanza di <code>ConsumeToRedis</code>, passando una istanza di <code>IWriter</code>. Nel caso in oggetto, l'unica implementazione è <code>RedisWriter</code>, che implementa l'interfaccia per la scrittura dei documenti su Redis.</p>
+<p>La classe <code>ETL_L3</code> viene istanziata senza richiedere alcun parametro al costruttore, il quale crea un'istanza di 
+<code>ConsumeToRedis</code>, passando una istanza astratta di <code>IWriter</code>. Nel caso in oggetto, l'unica implementazione è 
+<code>RedisWriter</code>, che implementa l'interfaccia per la scrittura dei documenti su Redis.</p>
 
-<p>Tramite il metodo <code>execute</code>, il consumer si occupa di consumare i messaggi sul topic batch di Kafka, riscrivendoli su MongoDB secondo le modalità previste, definite tramite la classe <code>IWriter</code> (vedi dopo).</p>
+<p>Tramite il metodo <code>execute</code>, il consumer si occupa di consumare i messaggi sul topic batch di Kafka, riscrivendoli su 
+Redis secondo le modalità previste, definite tramite la classe <code>IWriter</code>.</p>
 
-<h3>RedisWriter</h3>
+<h2>RedisWriter</h2>
 
 <p>Questa è la classe che si occupa di effettuare la scrittura su Redis.</p>
 
-<p>Essa si occupa principalmente di effettuare due operazioni:
-- <code>SADD vehicles &lt;VIN_VEHICLE&gt;</code>: Inserire (se non esiste già) il veicolo del messaggio in un set con l'elenco dei veicoli esistenti,
-- <code>ZADD readings/&lt;VIN_VEHICLE&gt; &lt;TIMESTAMP&gt; &lt;DOCUMENT&gt;</code>: Inserire (se non esiste già) il documento del messaggio in un sorted set per il veicolo del messaggio, ordinato secondo il timestamp del messaggio.</p>
+<p>Essa si occupa principalmente di effettuare due operazioni sul db:</p>
+
+<ul>
+<li><code>SADD vehicles &lt;VIN_VEHICLE&gt;</code>: Inserire (se non esiste già) il veicolo del messaggio in un <em>set</em> con l'elenco dei 
+veicoli esistenti,</li>
+<li><code>ZADD readings/&lt;VIN_VEHICLE&gt; &lt;TIMESTAMP&gt; &lt;DOCUMENT&gt;</code>: Inserire il documento del messaggio in un <em>sorted set</em> per il 
+veicolo del messaggio, ordinato secondo il timestamp del messaggio.</li>
+</ul>
         </div>
     </div>
 </section>
